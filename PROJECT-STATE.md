@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 14, 2025  
+**Last Updated:** December 15, 2025  
 **Current Phase:** Documentation Refinement (Pre-Development)  
-**Session:** Context preservation system complete
+**Session:** GitHub MCP evaluation complete
 
 ---
 
@@ -45,6 +45,7 @@
    - Add/modify specifications as project evolves
    - Ensure consistency across documents
    - Document any changes in DOCUMENT-CHANGES.md
+   - GitHub MCP integration deferred - will revisit at 50+ commits
 
 2. **When ready to start development:**
    - Follow the work session workflow from CONTEXT-PRESERVATION-GUIDE.md
@@ -82,6 +83,19 @@
 ---
 
 ## Recent Decisions/Changes
+
+### December 15, 2025
+- **Decision: GitHub MCP Server Evaluation**
+  - Evaluated adding GitHub MCP server for enhanced context preservation
+  - **Decision:** Don't add now - current workflow is sufficient
+  - **Rationale:**
+    - No repository exists yet (pre-development phase)
+    - PROJECT-STATE.md + file @mentions already solve context preservation
+    - Would add security overhead (GitHub token management) without proportional benefit
+    - Conflicts with docs-first philosophy (risk AI prioritizing commits over docs)
+  - **Revisit criteria:** At 50+ commits OR when adding second developer OR if using GitHub Issues for tracking
+  - **Scope:** GitHub integration remains optional per-project, not part of global methodology
+  - **Files unchanged:** CONTEXT-PRESERVATION-GUIDE.md stays tool-agnostic
 
 ### December 14, 2025
 - Created initial documentation suite (8 specification files)
