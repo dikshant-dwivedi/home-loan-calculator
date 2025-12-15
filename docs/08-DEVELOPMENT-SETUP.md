@@ -15,7 +15,7 @@ Install the following before starting:
 
 | Software | Version | Download Link | Verification Command |
 |----------|---------|---------------|---------------------|
-| **Node.js** | 18.x LTS | [nodejs.org](https://nodejs.org/) | `node --version` |
+| **Node.js** | 20.x LTS | [nodejs.org](https://nodejs.org/) | `node --version` |
 | **pnpm** | 8.x+ | [pnpm.io](https://pnpm.io/) | `pnpm --version` |
 | **Git** | 2.x+ | [git-scm.com](https://git-scm.com/) | `git --version` |
 | **Docker** | 24.x+ | [docker.com](https://www.docker.com/) | `docker --version` |

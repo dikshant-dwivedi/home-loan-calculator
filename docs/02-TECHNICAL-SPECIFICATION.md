@@ -104,7 +104,7 @@
 |------------|---------|---------|
 | **NestJS** | 10.x | Backend framework |
 | **TypeScript** | 5.x | Type safety |
-| **Prisma** | 5.x | ORM |
+| **Prisma** | 7.x | ORM |
 | **PostgreSQL** | 15.x | Database |
 | **class-validator** | 0.14.x | DTO validation |
 | **class-transformer** | 0.5.x | Object transformation |

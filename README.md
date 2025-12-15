@@ -9,6 +9,17 @@
 ├── DOCUMENT-CHANGES.md                 # Track deviations from original specs
 ├── CONTEXT-PRESERVATION-GUIDE.md       # 📚 Global guide (use for any project)
 ├── .windsurfrules                      # Project rules (auto-loaded)
+├── .gitignore                          # Git ignore rules
+├── docker-compose.yml                  # PostgreSQL database container
+├── backend/                            # NestJS backend application
+│   ├── src/
+│   │   ├── main.ts                     # App entry point (port 3001)
+│   │   ├── prisma/                     # Prisma service module
+│   │   └── health/                     # Health check endpoints
+│   ├── prisma/
+│   │   └── schema.prisma               # Database schema
+│   ├── prisma.config.ts                # Prisma 7 configuration
+│   └── .env                            # Environment variables (not in git)
 └── docs/                               # All specification documents
     ├── 00-README-INDEX.md              # Master index
     ├── 01-PRODUCT-REQUIREMENTS.md
@@ -23,8 +34,8 @@
 
 ## 🚀 Current Status
 
-**Phase:** Documentation Refinement (Pre-Development)  
-**No code written yet** - reviewing and finalizing specifications before development begins.
+**Phase:** Development - Backend Foundation Complete  
+**Backend running** with health endpoints working.
 
 See `PROJECT-STATE.md` for detailed current state.
 
@@ -55,12 +66,19 @@ See `PROJECT-STATE.md` for detailed current state.
 ### docs/ folder
 **8 specification documents** for this loan calculator project.
 
-## ⚙️ Ready to Start
+## ⚙️ Quick Start
 
-You're now ready to:
-- Refine documentation as needed
-- Start development when you're ready (flexible approach)
-- Follow the work session workflow from CONTEXT-PRESERVATION-GUIDE.md
+```bash
+# Start PostgreSQL
+docker compose up -d
+
+# Start backend
+cd backend && pnpm run start:dev
+
+# Verify (in another terminal)
+curl http://localhost:3001/health      # {"ok":true}
+curl http://localhost:3001/health/db   # {"db":"ok"}
+```
 
 ## 🔄 Next Conversation Prompt
 
@@ -72,22 +90,17 @@ Continuing work on home loan calculator project.
 CONTEXT FILES:
 @PROJECT-STATE.md - Current state (read this first)
 @DOCUMENT-CHANGES.md - Any spec changes
-@docs/00-README-INDEX.md - Documentation overview
 
 CURRENT PHASE:
-Documentation refinement (pre-development)
+Development - Backend foundation complete
 
 TASK:
-Review and refine documentation. I want to make changes to:
-[List specific docs or topics you want to update]
+Refine backend setup - improve docs, ask questions, ensure reproducibility
 
 WORKING STYLE:
-- I'll make multiple refinement requests
-- Keep context between my prompts
-- Track changes in DOCUMENT-CHANGES.md
+- Review and improve README instructions
+- Ask questions about Prisma 7, NestJS patterns
 - Update PROJECT-STATE.md at end of session
-
-Ready to start refining the docs?
 ```
 
 ## 📖 Quick Reference
@@ -98,6 +111,9 @@ Ready to start refining the docs?
 
 ## 🎯 What's Next
 
-1. **Read:** CONTEXT-PRESERVATION-GUIDE.md (workflow for all projects)
-2. **Now:** Refine documentation as needed
-3. **Later:** Start development when ready (flexible, organic approach)
+1. **Commit** current work (backend foundation) ✅
+2. **Next session (B):** Refine backend setup
+   - Improve README and setup instructions
+   - Review backend structure and patterns
+   - Q&A about Prisma 7, NestJS, etc.
+3. **Future:** Add loan calculation logic, then frontend

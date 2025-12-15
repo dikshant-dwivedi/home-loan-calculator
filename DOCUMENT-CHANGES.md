@@ -18,12 +18,20 @@ When you decide to change something from the original specs during development:
 
 ## Changes Made to Original Specifications
 
-### No Changes Yet
-
-Documentation is currently in review/refinement phase. Changes will be logged here when:
-- Original specs are modified during review
-- Design decisions change during development
-- Implementation reveals better approaches
+### December 16, 2025 - Node.js and Prisma Version Updates
+**Original:** Node.js 18.x LTS, Prisma 5.x
+**Changed to:** Node.js 20.x LTS, Prisma 7.x
+**Reason:** 
+- Node.js 20 is the current LTS with better performance
+- Prisma 7 is the latest version (installed via pnpm)
+- Prisma 7 has breaking changes: requires `prisma.config.ts` for datasource URL, uses adapter pattern for database connections
+**Files affected:** 
+- `docs/08-DEVELOPMENT-SETUP.md` (Node.js version)
+- `docs/02-TECHNICAL-SPECIFICATION.md` (Prisma version)
+**Implementation status:** Implemented
+**Code files affected:** 
+- `backend/prisma.config.ts` (new file for Prisma 7)
+- `backend/src/prisma/prisma.service.ts` (uses PrismaPg adapter)
 
 ---
 
