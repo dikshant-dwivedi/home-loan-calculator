@@ -221,6 +221,75 @@ Session: [Session number]
 
 ---
 
+## Automatic File Maintenance (Rolling Window)
+
+### The Problem This Solves
+
+**Without automatic maintenance:**
+- PROJECT-STATE.md grows to 400+ lines in months
+- Slower to load, harder to scan
+- More tokens per conversation = higher costs
+- Historical clutter obscures current state
+
+**With rolling window (implemented in .windsurfrules):**
+- File stays at ~150 lines forever
+- Fast loading, easy scanning
+- Lower token costs
+- Current context always clear
+
+### How It Works
+
+**Entry-based limit: 60 entries maximum**
+
+**What counts as an entry:**
+- ✅ bullets in "What's Complete" section
+- Decision entries in "Recent Decisions/Changes" section
+
+**When Claude updates PROJECT-STATE.md:**
+1. Counts total entries automatically
+2. If > 60 entries:
+   - Keeps 40 newest completions
+   - Keeps 20 newest decisions
+   - Moves old completions to "Major Milestones" (one-line bullets)
+   - Deletes old decisions (they're in git history)
+3. Informs you: "Trimmed PROJECT-STATE.md: archived 15 old entries"
+
+**Zero overhead for you - happens automatically**
+
+### Major Milestones Section
+
+**Purpose:** High-level summary of all-time progress
+
+**Format:**
+```markdown
+## Major Milestones (All-Time)
+- ✅ Dec 2025: Documentation complete, project setup
+- ✅ Jan 2026: Backend API v1 (15 features, commits abc-xyz)
+- ✅ Feb 2026: Frontend MVP deployed
+- ✅ Mar 2026: Chart components complete (8 features)
+- 🔄 Apr 2026: Prepayment features (in progress)
+```
+
+**This grows slowly:** ~1 entry per month of development
+
+### Git is Your Long-Term Archive
+
+**For historical context:**
+```bash
+# Find old decisions
+git log --grep="EMI calculation"
+
+# See PROJECT-STATE.md from 3 months ago
+git show HEAD@{3.months.ago}:PROJECT-STATE.md
+
+# Feature history
+git log --oneline -- backend/src/calculation.service.ts
+```
+
+**Philosophy:** Current state in PROJECT-STATE.md, history in git
+
+---
+
 ## Manual Setup Steps
 
 ### One-Time Setup (5 minutes)
@@ -931,7 +1000,26 @@ Approved. Let's:
 
 ---
 
-### Q7: Should I update PROJECT-STATE.md during the work session or only at the end?
+### Q7: What about PROJECT-STATE.md getting too big?
+
+**Answer:**
+
+**It won't - automatic trimming maintains it at 60 entries max.**
+
+**How it works:**
+- Entry-based limit (not line-based)
+- Counts: ✅ bullets in "What's Complete" + decision entries
+- When > 60: AI automatically trims to 40 newest completions + 20 newest decisions
+- Old items move to "Major Milestones" one-liner
+- Happens when you update PROJECT-STATE.md (no separate action)
+
+**You'll never see it grow past ~150-180 lines.**
+
+**For old history:** Use git log (see "For Deep Historical Context" section in PROJECT-STATE.md)
+
+---
+
+### Q8: Should I update PROJECT-STATE.md during the work session or only at the end?
 
 **Answer:**
 
@@ -1310,17 +1398,32 @@ git commit -m "[Claude suggested message]"
 
 ---
 
-### Rarely (Only When Needed)
+### Automatic Maintenance (By AI)
 
-**Update DOCUMENT-CHANGES.md:**
-- Only when you deviate from original specs
-- Claude does this during session
-- Review and approve
+**PROJECT-STATE.md auto-trimming:**
+- ✅ Happens automatically when file exceeds 60 entries
+- ✅ No action needed from you
+- ✅ Claude trims and informs you
+- ✅ Keeps file at optimal size forever
 
-**Update .windsurfrules:**
-- Only if tech stack fundamentally changes
-- Or if project phase shifts permanently
-- Maybe once every few weeks, if at all
+**You just update normally - AI handles the rest**
+
+### Your Responsibilities
+
+**PROJECT-STATE.md:**
+- Update after every work session (2 minutes)
+- Add completions, decisions, update current work
+- That's it - trimming is automatic
+
+**DOCUMENT-CHANGES.md:**
+- Only log significant specification changes
+- Don't log every tiny tweak during review
+- Focus on changes that affect implementation
+
+**.windsurfrules:**
+- Update rarely (only when project fundamentals change)
+- Keep it concise and actionable
+- Test changes by starting new conversation
 
 ---
 

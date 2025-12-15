@@ -1,14 +1,22 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 15, 2025  
-**Current Phase:** Documentation Refinement (Pre-Development)  
-**Session:** GitHub MCP evaluation complete
+**Last Updated:** December 15, 2025 (1:15 PM)  
+**Development Started:** December 14, 2025  
+**Current Phase:** Documentation Refinement (Pre-Development)
+
+---
+
+## Major Milestones (All-Time)
+- ✅ **Dec 14, 2025:** Project initiated, discovery interview complete
+- ✅ **Dec 14, 2025:** 8 specification documents created
+- ✅ **Dec 14, 2025:** Context preservation system established (CONTEXT-PRESERVATION-GUIDE v2.0)
+- 🔄 **Dec 15, 2025:** Documentation refinement in progress
 
 ---
 
 ## Current Status
 
-### What's Complete
+### What's Complete (Last 60 Entries)
 - ✅ Discovery interview and requirements gathering
 - ✅ Created 8 comprehensive specification documents
   - 01-PRODUCT-REQUIREMENTS.md
@@ -26,12 +34,19 @@
   - Global guide usable for any project
 - ✅ Created context preservation system (PROJECT-STATE.md, DOCUMENT-CHANGES.md, .windsurfrules)
 - ✅ Organized all files into clean structure
+- ✅ Implemented automatic rolling window trimming system
+  - Entry-based limit (60 entries max)
+  - Auto-trim rules in .windsurfrules
+  - Major Milestones section for all-time tracking
+  - Zero maintenance overhead
 
-### Current Phase: Documentation Refinement
-🔄 **In Progress:** Reviewing and refining documentation before starting development
+### 🔄 Current Work
+**Status:** Context preservation system finalized and ready
+- Documentation refinement (ready when needed)
+- All systems operational for development start
 
-### No Code Yet
-- ❌ No repositories created
+### Status
+- ❌ No repositories created yet
 - ❌ No development environment set up
 - ❌ No code written
 
@@ -43,19 +58,13 @@
 1. **Review and refine documentation** (when ready)
    - Review all 8 specification documents
    - Add/modify specifications as project evolves
-   - Ensure consistency across documents
    - Document any changes in DOCUMENT-CHANGES.md
-   - GitHub MCP integration deferred - will revisit at 50+ commits
 
 2. **When ready to start development:**
-   - Follow the work session workflow from CONTEXT-PRESERVATION-GUIDE.md
-   - Use Template 1 to start any conversation
-   - Update PROJECT-STATE.md after each work session
+   - Follow work session workflow from CONTEXT-PRESERVATION-GUIDE.md
+   - Use Template 1 to start conversations
+   - AI will automatically maintain PROJECT-STATE.md size
    - Commit after each working feature
-   
-3. **Optional:** Decide if you want to number work sessions or use phases
-   - If yes, track in PROJECT-STATE.md
-   - If no, use descriptive names
 
 ---
 
@@ -82,30 +91,33 @@
 
 ---
 
-## Recent Decisions/Changes
+## Recent Decisions/Changes (Last 60 Entries)
 
-### December 15, 2025
-- **Decision: GitHub MCP Server Evaluation**
-  - Evaluated adding GitHub MCP server for enhanced context preservation
-  - **Decision:** Don't add now - current workflow is sufficient
-  - **Rationale:**
-    - No repository exists yet (pre-development phase)
-    - PROJECT-STATE.md + file @mentions already solve context preservation
-    - Would add security overhead (GitHub token management) without proportional benefit
-    - Conflicts with docs-first philosophy (risk AI prioritizing commits over docs)
-  - **Revisit criteria:** At 50+ commits OR when adding second developer OR if using GitHub Issues for tracking
-  - **Scope:** GitHub integration remains optional per-project, not part of global methodology
-  - **Files unchanged:** CONTEXT-PRESERVATION-GUIDE.md stays tool-agnostic
+### December 15, 2025 (PM Session)
+- **Context Preservation Strategy Finalized**
+  - Problem identified: Files could grow to 400+ lines, causing token bloat and discovery issues
+  - Evaluated 3 approaches: phase-based archiving, rolling window, git-first
+  - **Decision: Rolling window with automatic AI trimming**
+  - Implementation:
+    - Entry-based limit (60 entries = ~40 completions + ~20 decisions)
+    - Auto-trim rules in .windsurfrules (AI checks and trims automatically)
+    - Major Milestones section for all-time high-level tracking
+    - Git history as long-term archive
+  - **Result:** Zero overhead, optimal token cost, no discovery problem
+  - Updated: .windsurfrules, PROJECT-STATE.md structure, CONTEXT-PRESERVATION-GUIDE.md
+
+### December 15, 2025 (AM Session)
+- **GitHub MCP Server Decision**
+  - Evaluated GitHub MCP server for context preservation
+  - Decision: Don't add now - current workflow sufficient
+  - Revisit at: 50+ commits OR second developer OR GitHub Issues usage
 
 ### December 14, 2025
-- Created initial documentation suite (8 specification files)
+- Created 8 specification documents
 - Established context preservation system
-- **Major simplification:** Removed rigid 43-session implementation plan
-- **Simplified guide:** Reduced from 5 terms to 2 core terms (Conversation, Work Session)
-- **Clarified workflow:** Phases and numbering are optional organizational tools (tracked in PROJECT-STATE.md)
-- **Deleted:** 09-IMPLEMENTATION-STRATEGY-WITH-CLAUDE.md (rigid plan not needed)
-- **Result:** Flexible, adaptable approach for organic development
-- Ready to begin documentation refinement when needed
+- Simplified guide: 2 core terms only (Conversation, Work Session)
+- Removed rigid implementation plan for flexible workflow
+- Deleted 09-IMPLEMENTATION-STRATEGY-WITH-CLAUDE.md
 
 ---
 
@@ -137,9 +149,25 @@
 
 **After each work session (2 minutes):**
 1. Update "Last Updated" date
-2. Move items from "In Progress" to "Complete" as needed
-3. Update "Next Actions" with specific next steps
-4. Add any decisions to "Recent Decisions/Changes"
-5. Note any blockers or questions
+2. Add completed items to "What's Complete"
+3. Update "Current Work" and "Current File State"
+4. Add decisions to "Recent Decisions/Changes"
+5. Update "Next Actions"
 
-**Keep it brief and actionable.**
+**AI will automatically trim if total entries exceed 60** (no action needed from you).
+
+---
+
+## For Deep Historical Context
+
+**When you need old decisions/features:**
+```bash
+# Search git history
+git log --grep="[feature/keyword]"
+
+# See PROJECT-STATE.md at specific commit
+git show [commit-hash]:PROJECT-STATE.md
+
+# Feature file history
+git log --oneline -- [filepath]
+```

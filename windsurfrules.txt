@@ -103,6 +103,36 @@ Core Documents:
 - Use @file mentions to load context efficiently
 - Keep conversations focused on one task at a time
 
+## PROJECT-STATE.md Auto-Trim Rules (CRITICAL)
+**When updating PROJECT-STATE.md, ALWAYS check and auto-trim:**
+
+1. **Count entries:**
+   - "What's Complete" section: count ✅ bullet points
+   - "Recent Decisions/Changes" section: count decision entries
+   - Total = sum of both sections
+
+2. **If total > 60 entries:**
+   - Keep ONLY 40 newest entries in "What's Complete"
+   - Keep ONLY 20 newest entries in "Recent Decisions/Changes"
+   - Move older completions to "Major Milestones" section as single-line bullets with dates
+   - Delete older decisions entirely (they're in git history)
+   - Inform user: "Trimmed PROJECT-STATE.md: archived [N] old entries to milestones"
+
+3. **Major Milestones format:**
+   ```markdown
+   ## Major Milestones (All-Time)
+   - ✅ Dec 2025: Documentation complete, project setup
+   - ✅ Jan 2026: Backend API v1 (15 features completed, see commits abc-xyz)
+   - ✅ Feb 2026: Frontend MVP deployed
+   ```
+
+4. **Rolling window principle:**
+   - PROJECT-STATE.md = last 60 entries (roughly 30-60 days)
+   - Git history = long-term archive
+   - Always maintain this structure automatically
+
+5. **DO NOT ask user permission to trim - just do it and inform**
+
 ## Current Phase
 - Pre-development: Documentation review and refinement
 - No code repository exists yet
