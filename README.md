@@ -68,16 +68,34 @@ See `PROJECT-STATE.md` for detailed current state.
 
 ## ⚙️ Quick Start
 
+**Prerequisites:** Node.js 20.x, pnpm 10.x, Docker Desktop running
+
 ```bash
-# Start PostgreSQL
+# 1. Start PostgreSQL
 docker compose up -d
 
-# Start backend
-cd backend && pnpm run start:dev
+# 2. Backend setup (first time only)
+cd backend
+pnpm install
+cp .env.example .env
 
-# Verify (in another terminal)
-curl http://localhost:3001/health      # {"ok":true}
-curl http://localhost:3001/health/db   # {"db":"ok"}
+# 3. Database migrations
+pnpm prisma migrate deploy
+pnpm prisma generate
+
+# 4. Start backend (development mode)
+pnpm run start:dev
+
+# 5. Verify (in another terminal)
+curl http://localhost:3001/health       # {"ok":true}
+curl http://localhost:3001/health/db    # {"db":"ok"}
+curl http://localhost:3001/             # Hello World!
+```
+
+**Subsequent runs (after first setup):**
+```bash
+docker compose up -d
+cd backend && pnpm run start:dev
 ```
 
 ## 🔄 Next Conversation Prompt
@@ -109,11 +127,22 @@ WORKING STYLE:
 **See documentation:** Open `docs/00-README-INDEX.md`  
 **Track changes:** Open `DOCUMENT-CHANGES.md`  
 
+## 🔌 MCP Servers (Optional - Windsurf IDE)
+
+**Configured in Session B:**
+- ✅ **Prisma MCP Server** - Database migrations, schema management
+- ⚠️ **PostgreSQL MCP Server** - Direct DB queries (needs troubleshooting)
+
+**Setup:** See `docs/08-DEVELOPMENT-SETUP.md` Section 16 for configuration details.
+
+**Dependencies Added:**
+- `dotenv` package (required for Prisma MCP compatibility)
+
 ## 🎯 What's Next
 
 1. **Commit** current work (backend foundation) ✅
-2. **Next session (B):** Refine backend setup
-   - Improve README and setup instructions
-   - Review backend structure and patterns
-   - Q&A about Prisma 7, NestJS, etc.
+2. **Session B (In Progress):** Backend setup refinement
+   - ✅ MCP servers configured
+   - ✅ Backend audit complete
+   - 🔄 README reproducibility improvements
 3. **Future:** Add loan calculation logic, then frontend

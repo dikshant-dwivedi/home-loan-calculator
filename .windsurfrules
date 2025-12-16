@@ -1,67 +1,20 @@
-# Home Loan Calculator - Development Rules
+# Windsurf Development Rules
+# Home Loan Calculator Project
 
-## Project Context
-Building a home loan prepayment calculator for Indian home loans.
-- Frontend: Next.js 14 + TypeScript
-- Backend: NestJS 10 + TypeScript  
-- Database: PostgreSQL 15 + Prisma
-- Complete documentation in /docs/ folder (8 specification documents)
+---
+---
 
-## ALWAYS Check These Files First
-1. PROJECT-STATE.md - Current progress, next steps, recent decisions
-2. DOCUMENT-CHANGES.md - Any modifications to original specifications
-3. Git log (last 5 commits) - Recent work history (when code exists)
+# ═══════════════════════════════════════════════════════════════════
+# PART 1: GLOBAL RULES (Copy these to any new project)
+# ═══════════════════════════════════════════════════════════════════
 
-## Documentation Structure
-All documentation is in: /Users/dikshantdwivedi/development/design/docs/
+## CLI-First Scaffolding Rule (CRITICAL)
+- Before creating or modifying boilerplate/structure for any tool (NestJS, Next.js, Prisma, Docker, etc.), ALWAYS first check whether the tool provides an official CLI/schematic to generate the scaffold.
+- Prefer the official CLI-generated baseline as the starting point, then apply minimal custom changes to meet project requirements.
+- Keep changes aligned with current, recommended documentation for the installed versions (avoid outdated patterns).
+- If we choose NOT to use an official scaffold, explain why and get user approval before proceeding.
 
-Core Documents:
-- 00-README-INDEX.md - Master index and overview
-- 01-PRODUCT-REQUIREMENTS.md - Product features, user stories, requirements
-- 02-TECHNICAL-SPECIFICATION.md - Architecture, tech stack, data models
-- 03-CALCULATION-FORMULAS-REFERENCE.md - Mathematical formulas and algorithms
-- 04-UI-UX-SPECIFICATIONS.md - Design system, layouts, interactions
-- 05-API-DOCUMENTATION.md - REST API endpoints and specifications
-- 06-TESTING-STRATEGY.md - Testing approach and test cases
-- 07-DEPLOYMENT-INFRASTRUCTURE.md - Deployment and DevOps guide
-- 08-DEVELOPMENT-SETUP.md - Local development environment setup
-
-## Code Standards (When Coding Begins)
-- TypeScript strict mode ALWAYS enabled
-- Write tests for ALL calculation logic (100% coverage required)
-- Write tests for UI components (70%+ coverage required)
-- Use Decimal.js for all money/percentage calculations (no native JS numbers)
-- Commit after each working feature with conventional commit messages
-- Follow Indian locale: ₹ symbol, lakhs/crores format, DD/MM/YYYY dates
-
-## Tech Stack - DO NOT DEVIATE
-**Frontend:**
-- Next.js 14 (App Router)
-- TypeScript 5+
-- Tailwind CSS + shadcn/ui
-- Zustand (state management)
-- Recharts (charts/visualizations)
-- React Hook Form + Zod (forms/validation)
-
-**Backend:**
-- NestJS 10
-- TypeScript 5+
-- Prisma (ORM)
-- PostgreSQL 15
-- class-validator (validation)
-
-**Testing:**
-- Jest (unit/integration)
-- React Testing Library (components)
-- Playwright (E2E)
-
-**DevOps:**
-- Docker + Docker Compose
-- GitHub Actions (CI/CD)
-- Vercel (frontend hosting)
-- Railway/AWS (backend hosting)
-
-## Current Session Context
+## Context Preservation Workflow
 **ALWAYS read PROJECT-STATE.md first** to understand:
 - Current phase (documentation review, development, testing, etc.)
 - What's already working
@@ -69,26 +22,16 @@ Core Documents:
 - Next immediate action
 - Recent decisions and changes
 
+**Core files to check:**
+1. PROJECT-STATE.md - Current progress, next steps, recent decisions
+2. DOCUMENT-CHANGES.md - Any modifications to original specifications
+3. Git log (last 5 commits) - Recent work history (when code exists)
+
 ## When Suggesting Changes
 1. Check if it conflicts with existing documentation
 2. If suggesting an improvement, note it in DOCUMENT-CHANGES.md
 3. Explain why the change is better than documented approach
 4. Get user approval before deviating from specs
-
-## Calculation Accuracy
-- EMI calculations must match bank calculators exactly
-- Use reducing balance method with monthly compounding
-- Round to nearest rupee (integer) for display
-- Use Decimal.js internally for precision
-- Validate against test cases in 03-CALCULATION-FORMULAS-REFERENCE.md
-
-## Indian Loan Specifics
-- Interest rates: 0.01% to 30% annual
-- Loan amounts: ₹1,00,000 to ₹10,00,00,000
-- Tenure: 6 months to 40 years (480 months)
-- Monthly compounding (not daily/quarterly)
-- No tax calculations in Phase 1
-- No floating rate changes in Phase 1
 
 ## Response Style
 - Be concise and direct
@@ -97,11 +40,11 @@ Core Documents:
 - Ask clarifying questions if requirements are unclear
 - Verify understanding before implementing
 
-## Context Preservation
-- Update PROJECT-STATE.md after each work session (user responsibility with AI help)
-- Log significant changes in DOCUMENT-CHANGES.md
-- Use @file mentions to load context efficiently
-- Keep conversations focused on one task at a time
+## Code Standards (General)
+- TypeScript strict mode ALWAYS enabled
+- Commit after each working feature with conventional commit messages
+- Write tests for business logic (aim for high coverage)
+- Use appropriate libraries for precision calculations when dealing with money/financial data
 
 ## PROJECT-STATE.md Auto-Trim Rules (CRITICAL)
 **When updating PROJECT-STATE.md, ALWAYS check and auto-trim:**
@@ -133,13 +76,98 @@ Core Documents:
 
 5. **DO NOT ask user permission to trim - just do it and inform**
 
-## Current Phase
-- Pre-development: Documentation review and refinement
-- No code repository exists yet
-- Capture all changes in DOCUMENT-CHANGES.md
+## Context Preservation Best Practices
+- Update PROJECT-STATE.md after each work session (user responsibility with AI help)
+- Log significant changes in DOCUMENT-CHANGES.md
+- Use @file mentions to load context efficiently
+- Keep conversations focused on one task at a time
 
 ## When Development Starts
 - Work in small, focused work sessions (1-2 hours each)
 - Test continuously, commit after each working feature
-- Follow the work session workflow from CONTEXT-PRESERVATION-GUIDE.md
+- Follow the work session workflow from CONTEXT-PRESERVATION-GUIDE.md (if present)
 - One feature per work session when possible
+
+
+---
+---
+
+# ═══════════════════════════════════════════════════════════════════
+# PART 2: PROJECT-SPECIFIC RULES (Home Loan Calculator)
+# ═══════════════════════════════════════════════════════════════════
+
+## Project Context
+Building a home loan prepayment calculator for Indian home loans.
+- Frontend: Next.js 14 + TypeScript
+- Backend: NestJS 10 + TypeScript  
+- Database: PostgreSQL 15 + Prisma
+- Complete documentation in /docs/ folder (8 specification documents)
+
+## Documentation Structure
+All documentation is in: /Users/dikshantdwivedi/development/design/docs/
+
+Core Documents:
+- 00-README-INDEX.md - Master index and overview
+- 01-PRODUCT-REQUIREMENTS.md - Product features, user stories, requirements
+- 02-TECHNICAL-SPECIFICATION.md - Architecture, tech stack, data models
+- 03-CALCULATION-FORMULAS-REFERENCE.md - Mathematical formulas and algorithms
+- 04-UI-UX-SPECIFICATIONS.md - Design system, layouts, interactions
+- 05-API-DOCUMENTATION.md - REST API endpoints and specifications
+- 06-TESTING-STRATEGY.md - Testing approach and test cases
+- 07-DEPLOYMENT-INFRASTRUCTURE.md - Deployment and DevOps guide
+- 08-DEVELOPMENT-SETUP.md - Local development environment setup
+
+## Tech Stack - DO NOT DEVIATE
+**Frontend:**
+- Next.js 14 (App Router)
+- TypeScript 5+
+- Tailwind CSS + shadcn/ui
+- Zustand (state management)
+- Recharts (charts/visualizations)
+- React Hook Form + Zod (forms/validation)
+
+**Backend:**
+- NestJS 10
+- TypeScript 5+
+- Prisma (ORM)
+- PostgreSQL 15
+- class-validator (validation)
+
+**Testing:**
+- Jest (unit/integration)
+- React Testing Library (components)
+- Playwright (E2E)
+
+**DevOps:**
+- Docker + Docker Compose
+- GitHub Actions (CI/CD)
+- Vercel (frontend hosting)
+- Railway/AWS (backend hosting)
+
+## Project-Specific Code Standards
+- Write tests for ALL calculation logic (100% coverage required)
+- Write tests for UI components (70%+ coverage required)
+- Use Decimal.js for all money/percentage calculations (no native JS numbers)
+- Follow Indian locale: ₹ symbol, lakhs/crores format, DD/MM/YYYY dates
+
+## Calculation Accuracy
+- EMI calculations must match bank calculators exactly
+- Use reducing balance method with monthly compounding
+- Round to nearest rupee (integer) for display
+- Use Decimal.js internally for precision
+- Validate against test cases in 03-CALCULATION-FORMULAS-REFERENCE.md
+
+## Indian Loan Specifics
+- Interest rates: 0.01% to 30% annual
+- Loan amounts: ₹1,00,000 to ₹10,00,00,000
+- Tenure: 6 months to 40 years (480 months)
+- Monthly compounding (not daily/quarterly)
+- No tax calculations in Phase 1
+- No floating rate changes in Phase 1
+
+## Current Phase
+- Development - Backend Foundation Complete
+- Backend running on port 3001 with health checks
+- PostgreSQL via Docker Compose
+- No frontend yet
+- No loan calculation logic yet

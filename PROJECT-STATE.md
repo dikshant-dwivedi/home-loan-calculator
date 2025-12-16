@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 16, 2025 (1:11 AM)  
+**Last Updated:** December 17, 2025 (2:25 AM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Backend Foundation Complete
+**Current Phase:** Development - Session B In Progress (Backend Setup Refinement)
 
 ---
 
@@ -48,9 +48,32 @@
   - PostgreSQL 15 via Docker Compose
   - Prisma 7 initialized with migrations
   - Health endpoints working: `GET /health` and `GET /health/db`
+- ✅ **Work Session B Complete (Dec 17, 2025):**
+  - Reorganized project rules (Global + Project-Specific)
+  - Added CLI-first scaffolding rule
+  - Backend audit complete (logging, CLI scaffolding, temp tables identified)
+  - MCP servers configured and working (Prisma + PostgreSQL)
+  - Added dotenv dependency for Prisma MCP
+  - Updated README.md with reproducible setup steps
+  - Added MCP documentation to development guide
+  - Verified backend end-to-end (all endpoints working)
+  - Fixed .gitignore to exclude TypeScript build cache files
 
 ### 🔄 Current Work
-**Status:** Backend foundation complete, ready for next feature
+**Status:** Session B complete - Backend setup clarity and documentation finished
+**Session B completed:** December 17, 2025 (2:53 AM)
+**Accomplishments:**
+- ✅ Reorganized windsurfrules.txt into Global + Project-Specific sections
+- ✅ Added CLI-first scaffolding rule (CRITICAL)
+- ✅ Clarified Prisma 7 approach: keep prisma.config.ts (Prisma 7 recommended)
+- ✅ Synced updated rules to .windsurfrules
+- ✅ Audited backend: no logging, modules not CLI-generated, HealthCheck table temporary
+- ✅ Connected both MCP servers: Prisma MCP and PostgreSQL MCP (both working)
+- ✅ Fixed: Added dotenv dependency to backend for Prisma MCP compatibility
+- ✅ Updated README.md with reproducible setup instructions
+- ✅ Added MCP server documentation to docs/08-DEVELOPMENT-SETUP.md
+- ✅ Verified backend working: all health endpoints responding correctly
+**Next session:** Start implementing loan calculation logic
 
 ### Status
 - ✅ Development environment set up
@@ -63,14 +86,27 @@
 
 ## Next Actions
 
-### Immediate Next Steps
-1. **Commit current work** - Initial backend setup ✅
-2. **Next work session (Session B):** Refine backend setup
-   - Fix/improve README instructions
-   - Add better setup documentation
-   - Review and understand the backend structure
-   - Ask questions about Prisma 7, NestJS patterns, etc.
-   - Ensure setup is reproducible and well-documented
+### Immediate Next Steps (Session C - Start Development)
+1. Implement loan calculation logic (EMI, amortization schedule)
+2. Create calculation service with NestJS CLI scaffolding
+3. Add comprehensive tests for calculation functions
+4. Create API endpoints for calculations
+
+### Backend Refactors Needed (Future Session)
+**Identified in Session B - defer to dedicated refactor session:**
+1. **Add logging infrastructure**
+   - Use NestJS built-in Logger (no new deps) OR evaluate Winston/Pino
+   - Add to PrismaService (connection events)
+   - Add to HealthService (health check results)
+   - Add to future calculation services
+2. **Regenerate modules with NestJS CLI** (CLI-first rule)
+   - Current: health/ and prisma/ modules manually created
+   - Missing: .spec.ts test files for all services/controllers
+   - Action: Use `nest g` commands to regenerate with proper scaffolding
+3. **Remove HealthCheck table** (temporary placeholder)
+   - Currently unused (health endpoint uses `SELECT 1`)
+   - Remove when adding real domain models (LoanScenario, PrepaymentAction)
+   - Create migration: `pnpm prisma migrate dev --name remove_health_check_table`
 
 ---
 
@@ -98,6 +134,24 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 17, 2025 (Work Session B - Complete)
+- **CLI-First Scaffolding Policy (CRITICAL)**
+  - Added global rule: always check for official CLI/schematics before creating files
+  - Applies to: NestJS, Next.js, Prisma, Docker, all major tools
+  - Prefer CLI-generated baseline + minimal custom changes
+  - Stay aligned with current recommended docs (avoid outdated patterns)
+- **Windsurf Rules Reorganization**
+  - Split windsurfrules.txt into two parts:
+    - PART 1: GLOBAL RULES (reusable across all projects)
+    - PART 2: PROJECT-SPECIFIC RULES (home loan calculator only)
+  - Makes it easy to bootstrap new projects with global rules
+  - Synced to .windsurfrules
+- **Prisma 7 Configuration Approach**
+  - Confirmed: prisma.config.ts is Prisma 7 official recommendation
+  - Decision: Keep it (not "custom", it's the new scaffold style)
+  - Uses env('DATABASE_URL') pattern from Prisma docs
+  - Runtime uses PrismaPg adapter for Prisma 7 + NestJS integration
 
 ### December 16, 2025 (Work Session A)
 - **Backend Foundation Setup**

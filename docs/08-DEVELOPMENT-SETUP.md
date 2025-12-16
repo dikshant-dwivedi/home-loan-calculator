@@ -915,6 +915,93 @@ After setup is complete:
 
 ---
 
+## 16. MCP Server Setup (Optional - Windsurf IDE)
+
+### 16.1 What are MCP Servers?
+
+Model Context Protocol (MCP) servers extend AI capabilities by providing direct access to tools and data sources. For this project, two MCP servers are useful:
+
+1. **Prisma MCP Server** - Database schema management, migrations
+2. **PostgreSQL MCP Server** - Direct database queries and inspection
+
+### 16.2 Configure MCP Servers
+
+**Location:** `~/.codeium/windsurf/mcp_config.json` (macOS)
+
+**Configuration:**
+```json
+{
+  "mcpServers": {
+    "prisma-mcp-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@prisma/mcp-server",
+        "/Users/YOUR_USERNAME/development/design/backend"
+      ]
+    },
+    "postgresql": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://postgres:postgres@localhost:5432/loan_calculator_dev"
+      ]
+    }
+  }
+}
+```
+
+**Important:**
+- Replace `YOUR_USERNAME` with your actual username
+- Use your actual project path for Prisma MCP
+- Match database credentials from `backend/.env`
+
+### 16.3 Install Required Dependencies
+
+The Prisma MCP server requires `dotenv` in your backend:
+
+```bash
+cd backend
+pnpm add dotenv
+```
+
+### 16.4 Restart Windsurf
+
+After configuration:
+1. Save `mcp_config.json`
+2. Completely quit Windsurf
+3. Restart Windsurf
+4. MCP servers will auto-connect
+
+### 16.5 Verify Connection
+
+**Prisma MCP Server:**
+- Check migration status
+- Open Prisma Studio
+- Run migrations
+
+**PostgreSQL MCP Server:**
+- Query database directly
+- Inspect schema
+- View table data
+
+### 16.6 Security Notes
+
+**⚠️ Local Development Only**
+
+These MCP servers should ONLY be used with:
+- ✅ Local development databases
+- ✅ Docker containers
+- ✅ Non-sensitive data
+
+**Never use with:**
+- ❌ Production databases
+- ❌ Real user data
+- ❌ Remote/cloud databases
+
+---
+
 **🎉 Setup Complete! You're ready to start developing the Home Loan Prepayment Calculator!**
 
 If you encounter any issues, refer to the Troubleshooting section or create an issue on GitHub.
