@@ -6,21 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AppModule = void 0;
+exports.LoanModule = void 0;
 const common_1 = require("@nestjs/common");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
-const prisma_module_1 = require("./prisma/prisma.module");
-const health_module_1 = require("./health/health.module");
-const loan_module_1 = require("./loan/loan.module");
-let AppModule = class AppModule {
+const loan_service_1 = require("./loan.service");
+const loan_controller_1 = require("./loan.controller");
+let LoanModule = class LoanModule {
 };
-exports.AppModule = AppModule;
-exports.AppModule = AppModule = __decorate([
+exports.LoanModule = LoanModule;
+exports.LoanModule = LoanModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, health_module_1.HealthModule, loan_module_1.LoanModule],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [loan_service_1.LoanService],
+        controllers: [loan_controller_1.LoanController]
     })
-], AppModule);
-//# sourceMappingURL=app.module.js.map
+], LoanModule);
+//# sourceMappingURL=loan.module.js.map

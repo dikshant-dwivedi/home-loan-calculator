@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 17, 2025 (2:25 AM)  
+**Last Updated:** December 17, 2025 (1:16 PM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session B In Progress (Backend Setup Refinement)
+**Current Phase:** Development - Session C Complete (Loan Calculation API)
 
 ---
 
@@ -12,6 +12,7 @@
 - ✅ **Dec 14, 2025:** Context preservation system established (CONTEXT-PRESERVATION-GUIDE v2.0)
 - ✅ **Dec 15, 2025:** Documentation refinement complete
 - ✅ **Dec 16, 2025:** Backend foundation complete (NestJS + Prisma 7 + PostgreSQL)
+- ✅ **Dec 17, 2025:** Core loan calculation API complete (3 endpoints, 19 tests passing)
 
 ---
 
@@ -58,39 +59,55 @@
   - Added MCP documentation to development guide
   - Verified backend end-to-end (all endpoints working)
   - Fixed .gitignore to exclude TypeScript build cache files
+- ✅ **Work Session C Complete (Dec 17, 2025):**
+  - Generated loan module with NestJS CLI (loan.module.ts, loan.service.ts, loan.controller.ts)
+  - Installed decimal.js, class-validator, class-transformer
+  - Created DTOs with validation (calculate-loan, calculate-with-prepayments, what-if)
+  - Created interfaces for calculation results
+  - Implemented EMI calculation using reducing balance method
+  - Implemented amortization schedule generation
+  - Implemented prepayment logic (periodic extra, lumpsum, missed payment)
+  - Implemented what-if scenario calculations
+  - Added global validation pipe and API prefix (/api/v1)
+  - All 3 loan endpoints working:
+    - POST /api/v1/loan/calculate
+    - POST /api/v1/loan/calculate-with-prepayments
+    - POST /api/v1/loan/what-if
+  - 19 unit tests passing
 
 ### 🔄 Current Work
-**Status:** Session B complete - Backend setup clarity and documentation finished
-**Session B completed:** December 17, 2025 (2:53 AM)
+**Status:** Session C complete - Core loan calculation API implemented
+**Session C completed:** December 17, 2025 (1:16 PM)
 **Accomplishments:**
-- ✅ Reorganized windsurfrules.txt into Global + Project-Specific sections
-- ✅ Added CLI-first scaffolding rule (CRITICAL)
-- ✅ Clarified Prisma 7 approach: keep prisma.config.ts (Prisma 7 recommended)
-- ✅ Synced updated rules to .windsurfrules
-- ✅ Audited backend: no logging, modules not CLI-generated, HealthCheck table temporary
-- ✅ Connected both MCP servers: Prisma MCP and PostgreSQL MCP (both working)
-- ✅ Fixed: Added dotenv dependency to backend for Prisma MCP compatibility
-- ✅ Updated README.md with reproducible setup instructions
-- ✅ Added MCP server documentation to docs/08-DEVELOPMENT-SETUP.md
-- ✅ Verified backend working: all health endpoints responding correctly
-**Next session:** Start implementing loan calculation logic
+- ✅ Used NestJS CLI to generate loan module/service/controller (CLI-first rule)
+- ✅ Installed decimal.js for precise financial calculations
+- ✅ Created comprehensive DTOs with class-validator
+- ✅ Implemented EMI calculation (₹50L, 8.5%, 20yr → EMI ₹43,391)
+- ✅ Implemented full amortization schedule with breakeven detection
+- ✅ Implemented prepayment strategies (reduce tenure, reduce EMI)
+- ✅ Implemented what-if scenarios (extra monthly, lumpsum, rate change)
+- ✅ All 19 unit tests passing
+- ✅ All 3 endpoints verified working via curl
+**Next session:** Implement scenario management endpoints (CRUD) or start frontend
 
 ### Status
 - ✅ Development environment set up
 - ✅ Backend running locally (port 3001)
 - ✅ Database connected (PostgreSQL via Docker)
+- ✅ Loan calculation API complete (3 endpoints)
+- ✅ Unit tests for calculations (19 passing)
 - ❌ No frontend yet
-- ❌ No loan calculation logic yet
+- ❌ No scenario persistence yet (CRUD endpoints)
 
 ---
 
 ## Next Actions
 
-### Immediate Next Steps (Session C - Start Development)
-1. Implement loan calculation logic (EMI, amortization schedule)
-2. Create calculation service with NestJS CLI scaffolding
-3. Add comprehensive tests for calculation functions
-4. Create API endpoints for calculations
+### Immediate Next Steps (Session D)
+1. Implement scenario management endpoints (CRUD for saved scenarios)
+2. Add Prisma models for LoanScenario and PrepaymentAction
+3. Create database migrations
+4. OR: Start frontend with Next.js
 
 ### Backend Refactors Needed (Future Session)
 **Identified in Session B - defer to dedicated refactor session:**
@@ -134,6 +151,20 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 17, 2025 (Work Session C - Complete)
+- **Loan Calculation Implementation**
+  - Used decimal.js for precise financial calculations (20 decimal precision)
+  - EMI formula: reducing balance method (Indian banking standard)
+  - Amortization schedule includes breakeven month detection
+  - Prepayment types: periodic_extra, lumpsum, missed_payment
+  - Impact strategies: reduce_tenure, reduce_emi
+  - What-if scenarios: extra_monthly, lumpsum, rate_change
+- **API Design**
+  - Global prefix: /api/v1
+  - Global validation pipe with whitelist and transform
+  - Response format matches API documentation spec
+  - EMI = ₹43,391 for standard test case (₹50L, 8.5%, 20yr)
 
 ### December 17, 2025 (Work Session B - Complete)
 - **CLI-First Scaffolding Policy (CRITICAL)**
@@ -210,10 +241,17 @@ docker compose up -d
 cd backend && pnpm run start:dev
 ```
 
-**Verify:**
+**Verify health:**
 ```bash
-curl http://localhost:3001/health
-curl http://localhost:3001/health/db
+curl http://localhost:3001/api/v1/health
+curl http://localhost:3001/api/v1/health/db
+```
+
+**Test loan calculation:**
+```bash
+curl -X POST http://localhost:3001/api/v1/loan/calculate \
+  -H "Content-Type: application/json" \
+  -d '{"principal": 5000000, "annualInterestRate": 8.5, "tenureMonths": 240}'
 ```
 
 ---
