@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 17, 2025 (1:16 PM)  
+**Last Updated:** December 17, 2025 (3:25 PM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session C Complete (Loan Calculation API)
+**Current Phase:** Development - Session D Complete (Postman Collection)
 
 ---
 
@@ -13,6 +13,7 @@
 - ✅ **Dec 15, 2025:** Documentation refinement complete
 - ✅ **Dec 16, 2025:** Backend foundation complete (NestJS + Prisma 7 + PostgreSQL)
 - ✅ **Dec 17, 2025:** Core loan calculation API complete (3 endpoints, 19 tests passing)
+- ✅ **Dec 17, 2025:** Postman collection created for API testing
 
 ---
 
@@ -74,20 +75,24 @@
     - POST /api/v1/loan/calculate-with-prepayments
     - POST /api/v1/loan/what-if
   - 19 unit tests passing
+- ✅ **Work Session D Complete (Dec 17, 2025):**
+  - Created Postman collection (v2.1) with all 6 endpoints
+  - Created local environment file with baseUrl variable
+  - Added test scripts for each request (status codes, JSON structure)
+  - Multiple request examples for POST endpoints (10 total requests)
+  - Collection-level documentation with setup and happy path workflow
+  - Files: postman/home-loan-calculator-backend.postman_collection.json
+  - Files: postman/local.postman_environment.json
 
 ### 🔄 Current Work
-**Status:** Session C complete - Core loan calculation API implemented
-**Session C completed:** December 17, 2025 (1:16 PM)
+**Status:** Session D complete - Postman collection created
+**Session D completed:** December 17, 2025 (3:25 PM)
 **Accomplishments:**
-- ✅ Used NestJS CLI to generate loan module/service/controller (CLI-first rule)
-- ✅ Installed decimal.js for precise financial calculations
-- ✅ Created comprehensive DTOs with class-validator
-- ✅ Implemented EMI calculation (₹50L, 8.5%, 20yr → EMI ₹43,391)
-- ✅ Implemented full amortization schedule with breakeven detection
-- ✅ Implemented prepayment strategies (reduce tenure, reduce EMI)
-- ✅ Implemented what-if scenarios (extra monthly, lumpsum, rate change)
-- ✅ All 19 unit tests passing
-- ✅ All 3 endpoints verified working via curl
+- ✅ Created Postman collection with all implemented endpoints
+- ✅ Created local environment with {{baseUrl}} variable
+- ✅ Added test scripts for status codes and response structure
+- ✅ Multiple request examples for each POST endpoint
+- ✅ Updated README.md with Postman section
 **Next session:** Implement scenario management endpoints (CRUD) or start frontend
 
 ### Status
@@ -96,6 +101,7 @@
 - ✅ Database connected (PostgreSQL via Docker)
 - ✅ Loan calculation API complete (3 endpoints)
 - ✅ Unit tests for calculations (19 passing)
+- ✅ Postman collection for API testing
 - ❌ No frontend yet
 - ❌ No scenario persistence yet (CRUD endpoints)
 
@@ -103,7 +109,7 @@
 
 ## Next Actions
 
-### Immediate Next Steps (Session D)
+### Immediate Next Steps (Session E)
 1. Implement scenario management endpoints (CRUD for saved scenarios)
 2. Add Prisma models for LoanScenario and PrepaymentAction
 3. Create database migrations
@@ -151,6 +157,15 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 17, 2025 (Work Session D - Complete)
+- **Postman Collection Created**
+  - Collection format: Postman v2.1
+  - Uses {{baseUrl}} variable (default: http://localhost:3001)
+  - Organized by folders: App, Health, Loan
+  - 10 request examples covering all endpoint variants
+  - Test scripts assert 2xx status and JSON structure
+  - Collection-level docs with setup instructions
 
 ### December 17, 2025 (Work Session C - Complete)
 - **Loan Calculation Implementation**

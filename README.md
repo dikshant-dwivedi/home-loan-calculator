@@ -15,11 +15,15 @@
 │   ├── src/
 │   │   ├── main.ts                     # App entry point (port 3001)
 │   │   ├── prisma/                     # Prisma service module
-│   │   └── health/                     # Health check endpoints
+│   │   ├── health/                     # Health check endpoints
+│   │   └── loan/                       # Loan calculation endpoints
 │   ├── prisma/
 │   │   └── schema.prisma               # Database schema
 │   ├── prisma.config.ts                # Prisma 7 configuration
 │   └── .env                            # Environment variables (not in git)
+├── postman/                            # API testing collection
+│   ├── home-loan-calculator-backend.postman_collection.json
+│   └── local.postman_environment.json
 └── docs/                               # All specification documents
     ├── 00-README-INDEX.md              # Master index
     ├── 01-PRODUCT-REQUIREMENTS.md
@@ -34,8 +38,8 @@
 
 ## 🚀 Current Status
 
-**Phase:** Development - Backend Foundation Complete  
-**Backend running** with health endpoints working.
+**Phase:** Development - Core Loan API Complete  
+**Backend running** with loan calculation endpoints working (3 endpoints, 19 tests passing).
 
 See `PROJECT-STATE.md` for detailed current state.
 
@@ -87,9 +91,9 @@ pnpm prisma generate
 pnpm run start:dev
 
 # 5. Verify (in another terminal)
-curl http://localhost:3001/health       # {"ok":true}
-curl http://localhost:3001/health/db    # {"db":"ok"}
-curl http://localhost:3001/             # Hello World!
+curl http://localhost:3001/api/v1/health       # {"ok":true}
+curl http://localhost:3001/api/v1/health/db    # {"db":"ok"}
+curl http://localhost:3001/api/v1              # Hello World!
 ```
 
 **Subsequent runs (after first setup):**
@@ -127,6 +131,28 @@ WORKING STYLE:
 **See documentation:** Open `docs/00-README-INDEX.md`  
 **Track changes:** Open `DOCUMENT-CHANGES.md`  
 
+## 📮 Postman Collection
+
+A complete Postman collection is available for API testing:
+
+```bash
+# Import into Postman:
+postman/home-loan-calculator-backend.postman_collection.json
+postman/local.postman_environment.json
+
+# Or use Newman (CLI):
+npm install -g newman
+newman run postman/home-loan-calculator-backend.postman_collection.json \
+  -e postman/local.postman_environment.json
+```
+
+**Endpoints included:**
+- `GET /api/v1/health` - Health check
+- `GET /api/v1/health/db` - Database health
+- `POST /api/v1/loan/calculate` - Basic EMI calculation
+- `POST /api/v1/loan/calculate-with-prepayments` - Prepayment scenarios
+- `POST /api/v1/loan/what-if` - What-if analysis
+
 ## 🔌 MCP Servers (Optional - Windsurf IDE)
 
 **Configured in Session B:**
@@ -140,9 +166,7 @@ WORKING STYLE:
 
 ## 🎯 What's Next
 
-1. **Commit** current work (backend foundation) ✅
-2. **Session B (In Progress):** Backend setup refinement
-   - ✅ MCP servers configured
-   - ✅ Backend audit complete
-   - 🔄 README reproducibility improvements
-3. **Future:** Add loan calculation logic, then frontend
+1. ✅ Backend foundation complete
+2. ✅ Core loan calculation API (3 endpoints)
+3. ✅ Postman collection for API testing
+4. **Next:** Scenario persistence (CRUD) or frontend development

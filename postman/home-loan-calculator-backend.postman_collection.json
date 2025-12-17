@@ -1,0 +1,562 @@
+{
+  "info": {
+    "_postman_id": "home-loan-calculator-backend-collection",
+    "name": "Home Loan Calculator Backend",
+    "description": "# Home Loan Calculator Backend API\n\nThis collection contains all endpoints for the Home Loan Calculator backend service.\n\n## Setup\n\n1. Import the `local.postman_environment.json` environment file\n2. Set `baseUrl` variable (default: `http://localhost:3001`)\n3. Ensure the backend server is running\n\n## Happy Path Workflow\n\n1. **Health Check**: Run `Health - GET /health` to verify server is up\n2. **DB Health**: Run `Health - GET /health/db` to verify database connection\n3. **Basic EMI Calculation**: Run `Loan - POST /loan/calculate` with sample loan parameters\n4. **Prepayment Scenarios**: Run `Loan - POST /loan/calculate-with-prepayments` to see impact of prepayments\n5. **What-If Analysis**: Run `Loan - POST /loan/what-if` to explore different scenarios\n\n## Notes\n\n- All monetary values are in INR (₹)\n- Interest rates are annual percentages (e.g., 8.5 = 8.5%)\n- Tenure is in months\n- Global prefix: `/api/v1`",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "{{baseUrl}}",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "App",
+      "item": [
+        {
+          "name": "App - GET /",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is a string', function () {",
+                  "    pm.expect(pm.response.text()).to.be.a('string');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1"]
+            },
+            "description": "Root endpoint - returns a hello message from the app service."
+          },
+          "response": []
+        }
+      ],
+      "description": "Root application endpoints"
+    },
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Health - GET /health",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "pm.test('Response has ok property', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('ok');",
+                  "    pm.expect(jsonData.ok).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/health",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "health"]
+            },
+            "description": "Basic health check endpoint. Returns `{ ok: true }` if the server is running."
+          },
+          "response": []
+        },
+        {
+          "name": "Health - GET /health/db",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "pm.test('Response has db property', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('db');",
+                  "    pm.expect(['ok', 'error']).to.include(jsonData.db);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/health/db",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "health", "db"]
+            },
+            "description": "Database health check endpoint. Returns `{ db: 'ok' }` if database is connected, `{ db: 'error' }` otherwise."
+          },
+          "response": []
+        }
+      ],
+      "description": "Health check endpoints for monitoring server and database status"
+    },
+    {
+      "name": "Loan",
+      "item": [
+        {
+          "name": "Loan - POST /loan/calculate",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "pm.test('Response has expected structure', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('success');",
+                  "    pm.expect(jsonData).to.have.property('data');",
+                  "    pm.expect(jsonData).to.have.property('message');",
+                  "    pm.expect(jsonData).to.have.property('timestamp');",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('Data has loan calculation properties', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data).to.have.property('loanParameters');",
+                  "    pm.expect(data).to.have.property('calculation');",
+                  "    pm.expect(data).to.have.property('amortizationSchedule');",
+                  "    pm.expect(data.calculation).to.have.property('emi');",
+                  "    pm.expect(data.calculation).to.have.property('totalInterest');",
+                  "    pm.expect(data.calculation).to.have.property('totalAmount');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"principal\": 5000000,\n  \"annualInterestRate\": 8.5,\n  \"tenureMonths\": 240,\n  \"startDate\": \"2024-01-01\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate"]
+            },
+            "description": "Calculate basic EMI and generate amortization schedule.\n\n**Request Body:**\n- `principal` (required): Loan amount in INR (₹1,00,000 - ₹10,00,00,000)\n- `annualInterestRate` (required): Annual interest rate percentage (0.01% - 30%)\n- `tenureMonths` (required): Loan tenure in months (6 - 480)\n- `startDate` (optional): ISO 8601 date string for loan start date"
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/calculate (Minimal)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON with success', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"principal\": 100000,\n  \"annualInterestRate\": 8.5,\n  \"tenureMonths\": 12\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate"]
+            },
+            "description": "Calculate EMI with minimal required fields (no startDate)."
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/calculate-with-prepayments (Periodic Extra)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "pm.test('Response has expected structure', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('success');",
+                  "    pm.expect(jsonData).to.have.property('data');",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('Data has prepayment comparison properties', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data).to.have.property('original');",
+                  "    pm.expect(data).to.have.property('modified');",
+                  "    pm.expect(data).to.have.property('comparison');",
+                  "    pm.expect(data).to.have.property('prepaymentSummary');",
+                  "    pm.expect(data).to.have.property('modifiedSchedule');",
+                  "    pm.expect(data.comparison).to.have.property('interestSaved');",
+                  "    pm.expect(data.comparison).to.have.property('tenureReduced');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loanParameters\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"startDate\": \"2024-01-01\"\n  },\n  \"prepayments\": [\n    {\n      \"type\": \"periodic_extra\",\n      \"startMonth\": 1,\n      \"endMonth\": 60,\n      \"extraAmountPerMonth\": 10000,\n      \"impactStrategy\": \"reduce_tenure\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate-with-prepayments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate-with-prepayments"]
+            },
+            "description": "Calculate loan with periodic extra payments.\n\n**Prepayment Types:**\n- `periodic_extra`: Regular extra payments over a period\n- `lumpsum`: One-time large payment\n- `missed_payment`: Missed EMI payment\n\n**Impact Strategies:**\n- `reduce_tenure`: Keep EMI same, reduce loan duration\n- `reduce_emi`: Keep tenure same, reduce EMI amount"
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/calculate-with-prepayments (Lumpsum)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response has comparison data', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data).to.have.property('comparison');",
+                  "    pm.expect(data.comparison.interestSaved).to.be.a('number');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loanParameters\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"startDate\": \"2024-01-01\"\n  },\n  \"prepayments\": [\n    {\n      \"type\": \"lumpsum\",\n      \"paymentMonth\": 24,\n      \"lumpsumAmount\": 500000,\n      \"impactStrategy\": \"reduce_tenure\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate-with-prepayments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate-with-prepayments"]
+            },
+            "description": "Calculate loan with a lumpsum prepayment at month 24."
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/calculate-with-prepayments (Mixed)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response has prepayment summary', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data.prepaymentSummary).to.be.an('array');",
+                  "    pm.expect(data.prepaymentSummary.length).to.be.greaterThan(0);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loanParameters\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"startDate\": \"2024-01-01\"\n  },\n  \"prepayments\": [\n    {\n      \"type\": \"periodic_extra\",\n      \"startMonth\": 1,\n      \"endMonth\": 60,\n      \"extraAmountPerMonth\": 5000,\n      \"impactStrategy\": \"reduce_tenure\"\n    },\n    {\n      \"type\": \"lumpsum\",\n      \"paymentMonth\": 36,\n      \"lumpsumAmount\": 300000,\n      \"impactStrategy\": \"reduce_tenure\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate-with-prepayments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate-with-prepayments"]
+            },
+            "description": "Calculate loan with multiple prepayment types combined."
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/calculate-with-prepayments (Reduce EMI)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Modified EMI is different from original', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data.modified.emi).to.not.equal(data.original.emi);",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"loanParameters\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240\n  },\n  \"prepayments\": [\n    {\n      \"type\": \"lumpsum\",\n      \"paymentMonth\": 12,\n      \"lumpsumAmount\": 500000,\n      \"impactStrategy\": \"reduce_emi\"\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/calculate-with-prepayments",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "calculate-with-prepayments"]
+            },
+            "description": "Calculate loan with lumpsum prepayment using reduce_emi strategy."
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/what-if (Extra Monthly)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.json;",
+                  "});",
+                  "",
+                  "pm.test('Response has expected structure', function () {",
+                  "    const jsonData = pm.response.json();",
+                  "    pm.expect(jsonData).to.have.property('success');",
+                  "    pm.expect(jsonData).to.have.property('data');",
+                  "    pm.expect(jsonData.success).to.be.true;",
+                  "});",
+                  "",
+                  "pm.test('Data has what-if impact properties', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data).to.have.property('impact');",
+                  "    pm.expect(data).to.have.property('recommendation');",
+                  "    pm.expect(data.impact).to.have.property('monthsSaved');",
+                  "    pm.expect(data.impact).to.have.property('interestSaved');",
+                  "    pm.expect(data.impact).to.have.property('newTenure');",
+                  "    pm.expect(data.impact).to.have.property('newEMI');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentScenario\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"currentMonth\": 24,\n    \"outstandingBalance\": 4500000\n  },\n  \"whatIf\": {\n    \"type\": \"extra_monthly\",\n    \"amount\": 10000,\n    \"fromMonth\": 25,\n    \"toMonth\": 120\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/what-if",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "what-if"]
+            },
+            "description": "What-if analysis for extra monthly payments.\n\n**What-If Types:**\n- `extra_monthly`: Simulate adding extra amount to monthly payments\n- `lumpsum`: Simulate a one-time lumpsum payment\n- `rate_change`: Simulate interest rate change"
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/what-if (Lumpsum)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response has impact data', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data.impact.interestSaved).to.be.a('number');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentScenario\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"currentMonth\": 24,\n    \"outstandingBalance\": 4500000\n  },\n  \"whatIf\": {\n    \"type\": \"lumpsum\",\n    \"amount\": 500000,\n    \"lumpsumMonth\": 25\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/what-if",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "what-if"]
+            },
+            "description": "What-if analysis for a lumpsum payment."
+          },
+          "response": []
+        },
+        {
+          "name": "Loan - POST /loan/what-if (Rate Change)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status code is 2xx', function () {",
+                  "    pm.expect(pm.response.code).to.be.within(200, 299);",
+                  "});",
+                  "",
+                  "pm.test('Response has recommendation', function () {",
+                  "    const data = pm.response.json().data;",
+                  "    pm.expect(data.recommendation).to.be.a('string');",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"currentScenario\": {\n    \"principal\": 5000000,\n    \"annualInterestRate\": 8.5,\n    \"tenureMonths\": 240,\n    \"currentMonth\": 24,\n    \"outstandingBalance\": 4500000\n  },\n  \"whatIf\": {\n    \"type\": \"rate_change\",\n    \"newRate\": 9.0\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/loan/what-if",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "loan", "what-if"]
+            },
+            "description": "What-if analysis for interest rate change scenario."
+          },
+          "response": []
+        }
+      ],
+      "description": "Loan calculation endpoints for EMI, prepayments, and what-if analysis"
+    }
+  ]
+}
