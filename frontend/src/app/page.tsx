@@ -3,9 +3,29 @@
 import { useState } from 'react';
 import { LoanForm } from '@/components/calculator/LoanForm';
 import { ResultsSummary } from '@/components/calculator/ResultsSummary';
+import { AmortizationTable } from '@/components/calculator/AmortizationTable';
+import { PaymentBreakdownChart } from '@/components/charts/PaymentBreakdownChart';
+import { BalanceOverTimeChart } from '@/components/charts/BalanceOverTimeChart';
 import { calculateEMI, generateAmortizationSchedule, findBreakevenMonth } from '@/lib/calculations/emi';
 import { apiClient } from '@/lib/services/api';
 import type { LoanParametersFormData } from '@/lib/utils/validation';
+
+interface AmortizationRow {
+  monthNumber: number;
+  monthYear: string;
+  date: string;
+  openingBalance: number;
+  emiPaid: number;
+  interestComponent: number;
+  principalComponent: number;
+  extraPayment: number;
+  totalPayment: number;
+  closingBalance: number;
+  interestPercentage: number;
+  cumulativeInterest: number;
+  cumulativePrincipal: number;
+  isBreakeven: boolean;
+}
 
 interface CalculationResults {
   emi: number;
@@ -13,6 +33,8 @@ interface CalculationResults {
   totalAmount: number;
   breakevenMonth: number;
   tenure: number;
+  principal: number;
+  schedule: AmortizationRow[];
   source: 'local' | 'api';
 }
 
@@ -41,6 +63,8 @@ export default function Home() {
           totalAmount: response.data.calculation.totalAmount,
           breakevenMonth: response.data.calculation.breakevenMonth,
           tenure: data.tenureMonths,
+          principal: data.principal,
+          schedule: response.data.amortizationSchedule,
           source: 'api',
         });
       } else {
@@ -63,6 +87,8 @@ export default function Home() {
           totalAmount: localCalc.totalAmount,
           breakevenMonth: breakeven,
           tenure: data.tenureMonths,
+          principal: data.principal,
+          schedule: schedule,
           source: 'local',
         });
       }
@@ -89,6 +115,8 @@ export default function Home() {
         totalAmount: localCalc.totalAmount,
         breakevenMonth: breakeven,
         tenure: data.tenureMonths,
+        principal: data.principal,
+        schedule: schedule,
         source: 'local',
       });
     } finally {
@@ -146,13 +174,30 @@ export default function Home() {
             )}
 
             {results ? (
-              <div className="bg-white rounded-lg shadow-sm p-6">
-                <ResultsSummary
-                  emi={results.emi}
-                  totalInterest={results.totalInterest}
-                  totalAmount={results.totalAmount}
+              <div className="space-y-8">
+                <div className="bg-white rounded-lg shadow-sm p-6">
+                  <ResultsSummary
+                    emi={results.emi}
+                    totalInterest={results.totalInterest}
+                    totalAmount={results.totalAmount}
+                    breakevenMonth={results.breakevenMonth}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <PaymentBreakdownChart
+                    totalPrincipal={results.principal}
+                    totalInterest={results.totalInterest}
+                  />
+                  <BalanceOverTimeChart
+                    schedule={results.schedule}
+                    breakevenMonth={results.breakevenMonth}
+                  />
+                </div>
+
+                <AmortizationTable
+                  schedule={results.schedule}
                   breakevenMonth={results.breakevenMonth}
-                  tenure={results.tenure}
                 />
               </div>
             ) : (

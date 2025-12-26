@@ -1,4 +1,5 @@
 import type { LoanParameters } from '@/types';
+import type { AmortizationScheduleRow } from '@/lib/calculations/emi';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
 const API_PREFIX = '/api/v1';
@@ -14,7 +15,7 @@ interface CalculateResponse {
       monthlyInterestRate: number;
       breakevenMonth: number;
     };
-    amortizationSchedule: any[];
+    amortizationSchedule: AmortizationScheduleRow[];
   };
   message: string;
   timestamp: string;

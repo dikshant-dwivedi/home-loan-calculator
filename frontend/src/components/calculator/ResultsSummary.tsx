@@ -7,7 +7,6 @@ interface ResultsSummaryProps {
   totalInterest: number;
   totalAmount: number;
   breakevenMonth: number;
-  tenure: number;
 }
 
 export function ResultsSummary({
@@ -15,7 +14,6 @@ export function ResultsSummary({
   totalInterest,
   totalAmount,
   breakevenMonth,
-  tenure,
 }: ResultsSummaryProps) {
   const breakevenYears = Math.floor(breakevenMonth / 12);
   const breakevenMonths = breakevenMonth % 12;
@@ -38,9 +36,9 @@ export function ResultsSummary({
           <div className="text-3xl font-bold text-orange-600 tabular-nums">
             {formatIndianCurrency(totalInterest)}
           </div>
-          <div className="text-xs text-gray-500 mt-2">
-            Over {Math.floor(tenure / 12)} years
-          </div>
+          <p className="text-sm text-gray-600">
+            After this month, you&apos;ll pay more principal than interest
+          </p>
         </div>
 
         <div className="bg-white border rounded-lg p-6 shadow-sm">
@@ -60,7 +58,7 @@ export function ResultsSummary({
               Breakeven Month: Month {breakevenMonth}
             </div>
             <div className="text-sm text-blue-700 mt-1">
-              After {breakevenYears} years{breakevenMonths > 0 && ` ${breakevenMonths} months`}, you'll pay more principal than interest
+              After {breakevenYears} years{breakevenMonths > 0 && ` ${breakevenMonths} months`}, you&apos;ll pay more principal than interest
             </div>
           </div>
         </div>

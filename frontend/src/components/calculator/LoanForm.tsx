@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
 import { loanParametersSchema, type LoanParametersFormData } from '@/lib/utils/validation';
-import { formatIndianCurrency } from '@/lib/utils/formatting';
 
 interface LoanFormProps {
   onSubmit: (data: LoanParametersFormData) => void;

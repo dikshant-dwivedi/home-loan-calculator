@@ -48,12 +48,29 @@ export function calculateEMI(
   };
 }
 
+export interface AmortizationScheduleRow {
+  monthNumber: number;
+  monthYear: string;
+  date: string;
+  openingBalance: number;
+  emiPaid: number;
+  interestComponent: number;
+  principalComponent: number;
+  extraPayment: number;
+  totalPayment: number;
+  closingBalance: number;
+  interestPercentage: number;
+  cumulativeInterest: number;
+  cumulativePrincipal: number;
+  isBreakeven: boolean;
+}
+
 export function generateAmortizationSchedule(
   principal: number,
   annualInterestRate: number,
   tenureMonths: number,
   startDate?: Date
-): any[] {
+): AmortizationScheduleRow[] {
   const { emi } = calculateEMI(principal, annualInterestRate, tenureMonths);
   const monthlyRate = new Decimal(annualInterestRate).div(12).div(100);
 
@@ -61,7 +78,7 @@ export function generateAmortizationSchedule(
   let cumulativeInterest = new Decimal(0);
   let cumulativePrincipal = new Decimal(0);
 
-  const schedule: any[] = [];
+  const schedule: AmortizationScheduleRow[] = [];
   const baseDate = startDate || new Date();
 
   for (let month = 1; month <= tenureMonths; month++) {
@@ -108,7 +125,7 @@ export function generateAmortizationSchedule(
   return schedule;
 }
 
-export function findBreakevenMonth(schedule: any[]): number {
+export function findBreakevenMonth(schedule: AmortizationScheduleRow[]): number {
   const breakevenRow = schedule.find((row) => row.isBreakeven);
   return breakevenRow ? breakevenRow.monthNumber : schedule.length;
 }

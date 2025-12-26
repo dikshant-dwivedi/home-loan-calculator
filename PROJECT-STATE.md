@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 27, 2025 (12:35 AM)  
+**Last Updated:** December 27, 2025 (1:15 AM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session F Complete (First Working UI)
+**Current Phase:** Development - Session G Complete (Data Visualization)
 
 ---
 
@@ -16,6 +16,7 @@
 - ✅ **Dec 17, 2025:** Postman collection created for API testing
 - ✅ **Dec 27, 2025:** Frontend scaffold complete (Next.js 14 + shadcn/ui + core libraries)
 - ✅ **Dec 27, 2025:** First working UI complete with backend integration (loan calculator screen)
+- ✅ **Dec 27, 2025:** Data visualization complete (amortization table + charts)
 
 ---
 
@@ -110,20 +111,31 @@
   - Verified end-to-end connectivity: frontend ↔ backend working
   - Frontend dev server running on port 3000
   - Backend API responding correctly on port 3001
+- ✅ **Work Session G Complete (Dec 27, 2025):**
+  - Created AmortizationTable component with pagination (12/24/60/120 rows per page)
+  - Added search and year filter functionality to table
+  - Implemented CSV export for amortization schedule
+  - Breakeven month highlighting in table (green border + checkmark)
+  - Created PaymentBreakdownChart (pie chart) showing principal vs interest split
+  - Created BalanceOverTimeChart (line graph) showing loan balance over time
+  - Integrated all components into main page with responsive 2-column grid
+  - Updated type definitions: AmortizationScheduleRow interface
+  - Fixed TypeScript strict mode compliance across all components
+  - Production build successful (Next.js 14.2.35)
+  - All components responsive and mobile-friendly
 
 ### 🔄 Current Work
-**Status:** Session F complete - First working UI with backend integration
-**Session F completed:** December 27, 2025 (12:35 AM)
+**Status:** Session G complete - Data visualization experience
+**Session G completed:** December 27, 2025 (1:15 AM)
 **Accomplishments:**
-- ✅ Loan input form with validation (principal, interest rate, tenure, start date)
-- ✅ Client-side EMI calculation engine (decimal.js, reducing balance method)
-- ✅ Results summary dashboard (EMI, total interest, total amount, breakeven month)
-- ✅ Backend API integration with error handling and fallback
-- ✅ Indian currency formatting (₹XX,XX,XXX)
-- ✅ Dual calculation mode toggle (local vs API)
-- ✅ End-to-end verification: frontend successfully calls backend
-- ✅ Responsive layout with Tailwind CSS
-**Next session:** Add amortization table or prepayment configuration panel
+- ✅ AmortizationTable component (pagination, search, filter, CSV export)
+- ✅ PaymentBreakdownChart (pie chart with Recharts)
+- ✅ BalanceOverTimeChart (line graph with Recharts)
+- ✅ Responsive layout with 2-column chart grid
+- ✅ TypeScript strict mode compliance
+- ✅ Production build successful
+- ✅ All components integrated and working
+**Next session:** Add prepayment configuration panel or scenario comparison
 
 ### Status
 - ✅ Development environment set up
@@ -136,7 +148,8 @@
 - ✅ Core UI libraries installed and configured
 - ✅ First UI screen working (loan calculator with form + results)
 - ✅ Frontend ↔ Backend connectivity verified
-- ❌ No amortization table yet
+- ✅ Amortization table with pagination, search, and export
+- ✅ Data visualization charts (pie chart + line graph)
 - ❌ No prepayment configuration yet
 - ❌ No scenario persistence yet (CRUD endpoints)
 
@@ -144,21 +157,24 @@
 
 ## Next Actions
 
-### Immediate Next Steps (Session G)
-**Option 1: Continue Frontend (Recommended)**
-1. Build interactive amortization table component (paginated, 12 rows per page)
-2. Add search/filter functionality for table
-3. Display full 240-month schedule with breakeven highlighting
-
-**Option 2: Add Prepayment UI**
-1. Create prepayment configuration panel
+### Immediate Next Steps (Session H)
+**Option 1: Prepayment Configuration UI (Recommended)**
+1. Create PrepaymentPanel component with add/edit/delete functionality
 2. Add forms for periodic extra, lumpsum, missed payment
 3. Integrate with backend calculate-with-prepayments endpoint
+4. Show before/after comparison with savings metrics
 
-**Option 3: Backend CRUD**
+**Option 2: What-If Scenarios**
+1. Create WhatIfPanel component for quick scenario testing
+2. Add sliders for extra monthly payment, lumpsum, rate change
+3. Real-time impact preview
+4. Integrate with backend what-if endpoint
+
+**Option 3: Backend CRUD + Persistence**
 1. Implement scenario management endpoints (CRUD for saved scenarios)
 2. Add Prisma models for LoanScenario and PrepaymentAction
 3. Create database migrations
+4. Add save/load functionality to frontend
 
 ### Backend Refactors Needed (Future Session)
 **Identified in Session B - defer to dedicated refactor session:**
@@ -202,6 +218,36 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 27, 2025 (Work Session G - Complete)
+- **Data Visualization Strategy**
+  - Built AmortizationTable component with full pagination (12/24/60/120 rows per page)
+  - Added search functionality (by month number or date)
+  - Year filter dropdown for quick navigation
+  - CSV export functionality for full schedule
+  - Breakeven month highlighting (green border + checkmark icon)
+- **Chart Components (Recharts)**
+  - PaymentBreakdownChart: Pie chart showing principal vs interest split
+  - BalanceOverTimeChart: Line graph showing loan balance decreasing over time
+  - Custom tooltips with Indian currency formatting
+  - Responsive design with proper axis formatting
+  - Interactive hover states and legends
+- **Type Safety & TypeScript**
+  - Created AmortizationScheduleRow interface for type safety
+  - Fixed all TypeScript strict mode errors
+  - Proper typing for Recharts tooltip and legend callbacks
+  - Updated API client with proper response types
+- **Layout & Integration**
+  - Responsive 2-column grid for charts (stacks on mobile)
+  - Vertical spacing between sections (space-y-8)
+  - All components integrated into main page below ResultsSummary
+  - Production build successful (Next.js 14.2.35)
+- **Component Features**
+  - Table: Pagination controls (First/Previous/Next/Last + page numbers)
+  - Table: Color-coded columns (interest=orange, principal=green)
+  - Charts: Indian currency formatting (₹XX,XX,XXX or ₹XL/XCr)
+  - Charts: Tabular numbers for financial figures
+  - All components mobile-responsive
 
 ### December 27, 2025 (Work Session F - Complete)
 - **UI Implementation Strategy**
