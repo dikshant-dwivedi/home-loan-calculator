@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 27, 2025 (1:15 AM)  
+**Last Updated:** December 27, 2025 (1:20 AM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session G Complete (Data Visualization)
+**Current Phase:** Development - Session H Complete (Prepayment Suite)
 
 ---
 
@@ -17,6 +17,7 @@
 - ✅ **Dec 27, 2025:** Frontend scaffold complete (Next.js 14 + shadcn/ui + core libraries)
 - ✅ **Dec 27, 2025:** First working UI complete with backend integration (loan calculator screen)
 - ✅ **Dec 27, 2025:** Data visualization complete (amortization table + charts)
+- ✅ **Dec 27, 2025:** Prepayment suite complete (configuration panel + what-if scenarios + comparison view)
 
 ---
 
@@ -123,19 +124,36 @@
   - Fixed TypeScript strict mode compliance across all components
   - Production build successful (Next.js 14.2.35)
   - All components responsive and mobile-friendly
+- ✅ **Work Session H Complete (Dec 27, 2025):**
+  - Extended API client with calculateWithPrepayments and calculateWhatIf methods
+  - Created PrepaymentPanel component with full CRUD functionality
+  - Support for 3 prepayment types: periodic_extra, lumpsum, missed_payment
+  - Form validation with Indian currency formatting (₹0-₹1L for monthly, ₹0-₹50L for lumpsum)
+  - Impact strategy selection: reduce_tenure or reduce_emi
+  - Created WhatIfPanel component with real-time interactive sliders
+  - Extra monthly payment slider (₹0-₹1,00,000)
+  - Lumpsum amount slider (₹0-₹50,00,000)
+  - Interest rate change slider (-2% to +2%)
+  - Created ComparisonView component showing before/after metrics
+  - Displays: interest saved, tenure reduced, ROI, breakeven shift
+  - Side-by-side comparison table with all key metrics
+  - Integrated tabbed interface: Basic Analysis, Prepayment Strategy, What-If Scenarios
+  - End-to-end testing with backend APIs successful
+  - Both prepayment endpoints working correctly
+  - Frontend running on port 3003, backend on port 3001
 
 ### 🔄 Current Work
-**Status:** Session G complete - Data visualization experience
-**Session G completed:** December 27, 2025 (1:15 AM)
+**Status:** Session H complete - Prepayment suite fully functional
+**Session H completed:** December 27, 2025 (1:20 AM)
 **Accomplishments:**
-- ✅ AmortizationTable component (pagination, search, filter, CSV export)
-- ✅ PaymentBreakdownChart (pie chart with Recharts)
-- ✅ BalanceOverTimeChart (line graph with Recharts)
-- ✅ Responsive layout with 2-column chart grid
-- ✅ TypeScript strict mode compliance
-- ✅ Production build successful
-- ✅ All components integrated and working
-**Next session:** Add prepayment configuration panel or scenario comparison
+- ✅ PrepaymentPanel with add/edit/delete functionality (3 prepayment types)
+- ✅ WhatIfPanel with real-time sliders (3 scenario types)
+- ✅ ComparisonView showing savings metrics and ROI
+- ✅ Tabbed interface integrating all features
+- ✅ API client extended with prepayment endpoints
+- ✅ End-to-end testing successful
+- ✅ All TypeScript strict mode compliant
+**Next session:** Add scenario persistence (CRUD endpoints + database models) or export functionality
 
 ### Status
 - ✅ Development environment set up
@@ -150,31 +168,34 @@
 - ✅ Frontend ↔ Backend connectivity verified
 - ✅ Amortization table with pagination, search, and export
 - ✅ Data visualization charts (pie chart + line graph)
-- ❌ No prepayment configuration yet
-- ❌ No scenario persistence yet (CRUD endpoints)
+- ✅ Prepayment configuration panel (add/edit/delete)
+- ✅ What-if scenario analysis with sliders
+- ✅ Before/after comparison view
+- ❌ No scenario persistence yet (CRUD endpoints + database)
 
 ---
 
 ## Next Actions
 
-### Immediate Next Steps (Session H)
-**Option 1: Prepayment Configuration UI (Recommended)**
-1. Create PrepaymentPanel component with add/edit/delete functionality
-2. Add forms for periodic extra, lumpsum, missed payment
-3. Integrate with backend calculate-with-prepayments endpoint
-4. Show before/after comparison with savings metrics
-
-**Option 2: What-If Scenarios**
-1. Create WhatIfPanel component for quick scenario testing
-2. Add sliders for extra monthly payment, lumpsum, rate change
-3. Real-time impact preview
-4. Integrate with backend what-if endpoint
-
-**Option 3: Backend CRUD + Persistence**
-1. Implement scenario management endpoints (CRUD for saved scenarios)
-2. Add Prisma models for LoanScenario and PrepaymentAction
-3. Create database migrations
+### Immediate Next Steps (Session I)
+**Option 1: Scenario Persistence (Recommended)**
+1. Add Prisma models for LoanScenario and PrepaymentAction
+2. Create database migrations
+3. Implement scenario CRUD endpoints (POST/GET/PATCH/DELETE /api/v1/scenarios)
 4. Add save/load functionality to frontend
+5. Scenario list view with search and filtering
+
+**Option 2: Export Functionality**
+1. Implement PDF export for scenarios (backend endpoint)
+2. Implement Excel export for amortization schedules
+3. Add export buttons to UI
+4. Generate formatted reports with charts
+
+**Option 3: Enhanced Visualizations**
+1. Add comparison charts (before/after loan balance)
+2. Create prepayment impact timeline visualization
+3. Add ROI breakdown chart
+4. Interactive chart tooltips with detailed metrics
 
 ### Backend Refactors Needed (Future Session)
 **Identified in Session B - defer to dedicated refactor session:**
