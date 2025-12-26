@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 17, 2025 (3:25 PM)  
+**Last Updated:** December 27, 2025 (12:16 AM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session D Complete (Postman Collection)
+**Current Phase:** Development - Session E Complete (Frontend Scaffold)
 
 ---
 
@@ -14,6 +14,7 @@
 - ✅ **Dec 16, 2025:** Backend foundation complete (NestJS + Prisma 7 + PostgreSQL)
 - ✅ **Dec 17, 2025:** Core loan calculation API complete (3 endpoints, 19 tests passing)
 - ✅ **Dec 17, 2025:** Postman collection created for API testing
+- ✅ **Dec 27, 2025:** Frontend scaffold complete (Next.js 14 + shadcn/ui + core libraries)
 
 ---
 
@@ -83,17 +84,32 @@
   - Collection-level documentation with setup and happy path workflow
   - Files: postman/home-loan-calculator-backend.postman_collection.json
   - Files: postman/local.postman_environment.json
+- ✅ **Work Session E Complete (Dec 27, 2025):**
+  - Created frontend/ folder using create-next-app CLI
+  - Next.js 14.2.35 with App Router, TypeScript 5, Tailwind CSS 3.4
+  - Initialized shadcn/ui with Neutral color scheme
+  - Added Button component (verified working)
+  - Installed core libraries: zustand 5.0.9, react-hook-form 7.69.0, zod 4.2.1, @hookform/resolvers 5.2.2, recharts 3.6.0, decimal.js 10.6.0
+  - Created folder structure: components/, lib/, store/, types/
+  - Created TypeScript type definitions (LoanParameters, AmortizationRow, PrepaymentAction, etc.)
+  - Created Zustand store with persist middleware (loanStore.ts)
+  - Created API client placeholder (lib/services/api.ts)
+  - Added .env.local.example with NEXT_PUBLIC_API_BASE_URL
+  - Updated frontend/README.md with project-specific content
+  - Verified dev server runs successfully on port 3000
 
 ### 🔄 Current Work
-**Status:** Session D complete - Postman collection created
-**Session D completed:** December 17, 2025 (3:25 PM)
+**Status:** Session E complete - Frontend scaffold ready
+**Session E completed:** December 27, 2025 (12:16 AM)
 **Accomplishments:**
-- ✅ Created Postman collection with all implemented endpoints
-- ✅ Created local environment with {{baseUrl}} variable
-- ✅ Added test scripts for status codes and response structure
-- ✅ Multiple request examples for each POST endpoint
-- ✅ Updated README.md with Postman section
-**Next session:** Implement scenario management endpoints (CRUD) or start frontend
+- ✅ Next.js 14 scaffold with official CLI (TypeScript, Tailwind, ESLint, App Router)
+- ✅ shadcn/ui initialized with Button component
+- ✅ Core libraries installed (zustand, react-hook-form, zod, recharts, decimal.js)
+- ✅ Folder structure created aligned with technical specification
+- ✅ Type definitions and Zustand store created
+- ✅ Environment variable pattern established
+- ✅ Dev server verified working on port 3000
+**Next session:** Build first UI screen (loan input form)
 
 ### Status
 - ✅ Development environment set up
@@ -102,18 +118,25 @@
 - ✅ Loan calculation API complete (3 endpoints)
 - ✅ Unit tests for calculations (19 passing)
 - ✅ Postman collection for API testing
-- ❌ No frontend yet
+- ✅ Frontend scaffold complete (Next.js 14 on port 3000)
+- ✅ Core UI libraries installed and configured
+- ❌ No UI screens yet (only scaffold)
 - ❌ No scenario persistence yet (CRUD endpoints)
 
 ---
 
 ## Next Actions
 
-### Immediate Next Steps (Session E)
+### Immediate Next Steps (Session F)
+**Option 1: Continue Frontend (Recommended)**
+1. Build loan input form component with React Hook Form + Zod validation
+2. Implement client-side EMI calculation (no API call yet)
+3. Display basic results (EMI, total interest, total amount)
+
+**Option 2: Backend CRUD**
 1. Implement scenario management endpoints (CRUD for saved scenarios)
 2. Add Prisma models for LoanScenario and PrepaymentAction
 3. Create database migrations
-4. OR: Start frontend with Next.js
 
 ### Backend Refactors Needed (Future Session)
 **Identified in Session B - defer to dedicated refactor session:**
@@ -157,6 +180,29 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 27, 2025 (Work Session E - Complete)
+- **Frontend Scaffold Strategy**
+  - Used official create-next-app CLI (CLI-first rule compliance)
+  - Command: `pnpm create next-app@14 frontend --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"`
+  - Chose Next.js 14.2.35 (not latest 15.x) for stability with React 18
+  - Selected Neutral color scheme for shadcn/ui (professional, clean)
+- **Library Versions**
+  - zustand 5.0.9 (latest, with persist middleware)
+  - react-hook-form 7.69.0 (latest stable)
+  - zod 4.2.1 (latest, breaking changes from v3)
+  - recharts 3.6.0 (latest, React 18 compatible)
+  - decimal.js 10.6.0 (for precise financial calculations)
+- **Project Structure**
+  - Followed technical specification folder layout
+  - Created placeholder directories for future components
+  - Zustand store with localStorage persistence enabled
+  - API client uses NEXT_PUBLIC_API_BASE_URL env var (defaults to localhost:3001)
+- **Verification**
+  - Dev server runs successfully on port 3000
+  - Tailwind CSS confirmed working (blue box visible)
+  - shadcn/ui Button component renders with variants
+  - TypeScript compilation successful
 
 ### December 17, 2025 (Work Session D - Complete)
 - **Postman Collection Created**
@@ -256,6 +302,12 @@ docker compose up -d
 cd backend && pnpm run start:dev
 ```
 
+**Frontend is ready. To start:**
+```bash
+# From project root
+cd frontend && pnpm dev
+```
+
 **Verify health:**
 ```bash
 curl http://localhost:3001/api/v1/health
@@ -268,6 +320,10 @@ curl -X POST http://localhost:3001/api/v1/loan/calculate \
   -H "Content-Type: application/json" \
   -d '{"principal": 5000000, "annualInterestRate": 8.5, "tenureMonths": 240}'
 ```
+
+**Frontend URLs:**
+- Dev server: http://localhost:3000
+- Current page: Test page showing Tailwind + shadcn/ui working
 
 ---
 
