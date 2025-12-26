@@ -1,8 +1,8 @@
 # Project State - Home Loan Calculator
 
-**Last Updated:** December 27, 2025 (12:16 AM)  
+**Last Updated:** December 27, 2025 (12:35 AM)  
 **Development Started:** December 14, 2025  
-**Current Phase:** Development - Session E Complete (Frontend Scaffold)
+**Current Phase:** Development - Session F Complete (First Working UI)
 
 ---
 
@@ -15,6 +15,7 @@
 - ✅ **Dec 17, 2025:** Core loan calculation API complete (3 endpoints, 19 tests passing)
 - ✅ **Dec 17, 2025:** Postman collection created for API testing
 - ✅ **Dec 27, 2025:** Frontend scaffold complete (Next.js 14 + shadcn/ui + core libraries)
+- ✅ **Dec 27, 2025:** First working UI complete with backend integration (loan calculator screen)
 
 ---
 
@@ -97,19 +98,32 @@
   - Added .env.local.example with NEXT_PUBLIC_API_BASE_URL
   - Updated frontend/README.md with project-specific content
   - Verified dev server runs successfully on port 3000
+- ✅ **Work Session F Complete (Dec 27, 2025):**
+  - Created utility functions: formatting.ts (Indian currency, percentages), validation.ts (Zod schemas)
+  - Implemented client-side EMI calculation engine using decimal.js (emi.ts)
+  - Created LoanForm component with React Hook Form + Zod validation
+  - Created ResultsSummary component with key metrics display
+  - Updated main page (page.tsx) with full calculator UI
+  - Implemented dual calculation mode: local (client-side) + API (backend)
+  - Added API client with calculateLoan method
+  - Created .env.local with NEXT_PUBLIC_API_BASE_URL
+  - Verified end-to-end connectivity: frontend ↔ backend working
+  - Frontend dev server running on port 3000
+  - Backend API responding correctly on port 3001
 
 ### 🔄 Current Work
-**Status:** Session E complete - Frontend scaffold ready
-**Session E completed:** December 27, 2025 (12:16 AM)
+**Status:** Session F complete - First working UI with backend integration
+**Session F completed:** December 27, 2025 (12:35 AM)
 **Accomplishments:**
-- ✅ Next.js 14 scaffold with official CLI (TypeScript, Tailwind, ESLint, App Router)
-- ✅ shadcn/ui initialized with Button component
-- ✅ Core libraries installed (zustand, react-hook-form, zod, recharts, decimal.js)
-- ✅ Folder structure created aligned with technical specification
-- ✅ Type definitions and Zustand store created
-- ✅ Environment variable pattern established
-- ✅ Dev server verified working on port 3000
-**Next session:** Build first UI screen (loan input form)
+- ✅ Loan input form with validation (principal, interest rate, tenure, start date)
+- ✅ Client-side EMI calculation engine (decimal.js, reducing balance method)
+- ✅ Results summary dashboard (EMI, total interest, total amount, breakeven month)
+- ✅ Backend API integration with error handling and fallback
+- ✅ Indian currency formatting (₹XX,XX,XXX)
+- ✅ Dual calculation mode toggle (local vs API)
+- ✅ End-to-end verification: frontend successfully calls backend
+- ✅ Responsive layout with Tailwind CSS
+**Next session:** Add amortization table or prepayment configuration panel
 
 ### Status
 - ✅ Development environment set up
@@ -120,20 +134,28 @@
 - ✅ Postman collection for API testing
 - ✅ Frontend scaffold complete (Next.js 14 on port 3000)
 - ✅ Core UI libraries installed and configured
-- ❌ No UI screens yet (only scaffold)
+- ✅ First UI screen working (loan calculator with form + results)
+- ✅ Frontend ↔ Backend connectivity verified
+- ❌ No amortization table yet
+- ❌ No prepayment configuration yet
 - ❌ No scenario persistence yet (CRUD endpoints)
 
 ---
 
 ## Next Actions
 
-### Immediate Next Steps (Session F)
+### Immediate Next Steps (Session G)
 **Option 1: Continue Frontend (Recommended)**
-1. Build loan input form component with React Hook Form + Zod validation
-2. Implement client-side EMI calculation (no API call yet)
-3. Display basic results (EMI, total interest, total amount)
+1. Build interactive amortization table component (paginated, 12 rows per page)
+2. Add search/filter functionality for table
+3. Display full 240-month schedule with breakeven highlighting
 
-**Option 2: Backend CRUD**
+**Option 2: Add Prepayment UI**
+1. Create prepayment configuration panel
+2. Add forms for periodic extra, lumpsum, missed payment
+3. Integrate with backend calculate-with-prepayments endpoint
+
+**Option 3: Backend CRUD**
 1. Implement scenario management endpoints (CRUD for saved scenarios)
 2. Add Prisma models for LoanScenario and PrepaymentAction
 3. Create database migrations
@@ -180,6 +202,38 @@
 ---
 
 ## Recent Decisions/Changes (Last 60 Entries)
+
+### December 27, 2025 (Work Session F - Complete)
+- **UI Implementation Strategy**
+  - Built loan calculator page following UI/UX specs (docs/04-UI-UX-SPECIFICATIONS.md)
+  - Implemented dual calculation mode: client-side (decimal.js) + backend API
+  - Added automatic fallback to local calculation if API fails
+  - Used React Hook Form + Zod for form validation (as per tech spec)
+- **Component Architecture**
+  - LoanForm: Controlled form with real-time validation, Indian currency formatting
+  - ResultsSummary: Key metrics dashboard (EMI, total interest, total amount, breakeven)
+  - Main page: Responsive 3-column layout (form left, results right, empty state)
+- **Calculation Engine**
+  - Client-side EMI calculation matches backend exactly (decimal.js precision: 20)
+  - Reducing balance method implementation (Indian banking standard)
+  - Amortization schedule generation (240 months)
+  - Breakeven month detection (principal > interest)
+- **API Integration**
+  - Created apiClient.calculateLoan() method
+  - Request format matches API docs exactly (POST /api/v1/loan/calculate)
+  - Response parsing handles nested data structure
+  - Error handling with user-friendly messages
+- **Formatting & Validation**
+  - Indian currency format: ₹XX,XX,XXX (formatIndianCurrency utility)
+  - Validation ranges: principal (₹1L-₹10Cr), rate (0.01%-30%), tenure (6-480 months)
+  - Tenure display: converts months to years + months
+  - Tabular numbers for financial figures
+- **End-to-End Verification**
+  - ✅ Frontend dev server running on port 3000
+  - ✅ Backend API responding on port 3001
+  - ✅ API call successful: POST /api/v1/loan/calculate returns full schedule
+  - ✅ UI renders results correctly from both local and API calculations
+  - ✅ No console errors, TypeScript compilation clean
 
 ### December 27, 2025 (Work Session E - Complete)
 - **Frontend Scaffold Strategy**
